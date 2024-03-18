@@ -1,9 +1,11 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
+	storage "go-master/controllers"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -13,11 +15,11 @@ func main() {
 
 	//Routes
 
-	s.HandleFunc("/createProfile", createProfile).Methods("POST")
-	s.HandleFunc("/getAllUsers", getAllUsers).Methods("GET")
-	s.HandleFunc("/getUserProfile", getUserProfile).Methods("POST")
-	s.HandleFunc("/updateProfile", updateProfile).Methods("PUT")
-	s.HandleFunc("/deleteProfile/{id}", deleteProfile).Methods("DELETE")
+	s.HandleFunc("/createProfile", storage.CreateProfile).Methods("POST")
+	s.HandleFunc("/getAllUsers",storage.GetAllUsers).Methods("GET")
+	s.HandleFunc("/getUserProfile",storage.GetUserProfile).Methods("GET")
+	s.HandleFunc("/updateProfile",storage.UpdateProfile).Methods("PUT")
+	s.HandleFunc("/deleteProfile/{id}",storage.DeleteProfile).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":8000", s)) // Run Server
 }

@@ -1,4 +1,4 @@
-package main
+package stora
 
 import (
 	"context"
@@ -13,6 +13,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	db "go-master/db"
 )
 
 // struct for storing data
@@ -22,11 +23,11 @@ type user struct {
 	City string `json:"city"`
 }
 
-var userCollection = db().Database("goTest").Collection("users") // get collection "users" from db() which returns *mongo.Client
+var userCollection = db.Db().Database("goTest").Collection("users") // get collection "users" from db() which returns *mongo.Client
 
 // Create Profile or Signup
 
-func createProfile(w http.ResponseWriter, r *http.Request) {
+func CreateProfile(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json") // for adding Content-type
 
@@ -47,7 +48,7 @@ func createProfile(w http.ResponseWriter, r *http.Request) {
 
 // Get Profile of a particular User by Name
 
-func getUserProfile(w http.ResponseWriter, r *http.Request) {
+func GetUserProfile(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -70,7 +71,7 @@ func getUserProfile(w http.ResponseWriter, r *http.Request) {
 
 //Update Profile of User
 
-func updateProfile(w http.ResponseWriter, r *http.Request) {
+func UpdateProfile(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -101,7 +102,7 @@ func updateProfile(w http.ResponseWriter, r *http.Request) {
 
 //Delete Profile of User
 
-func deleteProfile(w http.ResponseWriter, r *http.Request) {
+func DeleteProfile(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)["id"] //get Parameter value as string
@@ -121,7 +122,7 @@ func deleteProfile(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func getAllUsers(w http.ResponseWriter, r *http.Request) {
+func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var results []primitive.M                                   //slice for multiple documents
 	cur, err := userCollection.Find(context.TODO(), bson.D{{}}) //returns a *mongo.Cursor
